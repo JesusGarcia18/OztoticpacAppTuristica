@@ -1,11 +1,13 @@
 package com.example.oztoticpacappturistica.ui.home
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.graphics.Color
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.oztoticpacappturistica.databinding.FragmentHomeBinding
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +27,6 @@ import java.io.OutputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.location.Location
 import android.os.Looper
 import android.widget.Toast
@@ -42,8 +43,17 @@ import com.graphhopper.ResponsePath
 import com.graphhopper.util.Parameters
 import com.graphhopper.util.shapes.GHPoint
 import org.osmdroid.views.overlay.Polyline
+import com.example.oztoticpacappturistica.R
+import com.google.android.gms.tasks.Task
+import com.graphhopper.config.Profile
+import databases.AppDatabase
+import kotlinx.coroutines.DelicateCoroutinesApi
 
+@Suppress("DEPRECATION")
 class HomeFragment : Fragment() {
+
+    private lateinit var db: AppDatabase
+    private var userLocationMarker: Marker? = null
 
     private var _binding: FragmentHomeBinding? = null
 
@@ -51,20 +61,21 @@ class HomeFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
     private lateinit var mapView: MapView
-    private val destinationDir = File(requireContext().getExternalFilesDir(null), "assets/Nogales_2024-10-16_205049")
+    private val destinationDir = File(requireContext().getExternalFilesDir(null), "Nogales_2024-10-16_205049")
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        val action = HomeFragmentDirections.actionHomeFragmentToDetalleSitioFragment(sitioId)
-        findNavController().navigate(action)
+
+
+
+        mapView = binding.mapOffline
+        setupMap(destinationDir)
 
         return root
     }
@@ -77,6 +88,7 @@ class HomeFragment : Fragment() {
         setupOfflineMap()
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun setupOfflineMap(){
         if (!destinationDir.exists()){
             destinationDir.mkdirs()
@@ -97,7 +109,7 @@ class HomeFragment : Fragment() {
     }
 
     private suspend fun extractZipAsset(assetName: String, destinationDir: File){
-        val assetManager = assets
+        val assetManager = requireContext().assets
         val zipFile = assetManager.open(assetName)
         val zipInputStream = ZipInputStream(zipFile)
 
@@ -131,7 +143,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setupMap(){
+    private fun setupMap(destinationDir: File){
         val tileSource = XYTileSource(
             "Nogales",
             0, 16,
@@ -146,13 +158,13 @@ class HomeFragment : Fragment() {
 
         val gpxFile = File(destinationDir, "waypoints.gpx")
         if (gpxFile.exists()){
-            loadWaypointsFromGPX(destinationDir)
+            loadWaypointsFromGPX()
         }
     }
 
     private fun loadWaypointsFromGPX() {
         try {
-            val inputStream: InputStream = assets.open("waypoints.gpx")
+            val inputStream: InputStream = requireContext().assets.open("waypoints.gpx")
             val factory = XmlPullParserFactory.newInstance()
             val parser = factory.newPullParser()
             parser.setInput(InputStreamReader(inputStream))
@@ -180,15 +192,6 @@ class HomeFragment : Fragment() {
                                 lifecycleScope.launch {
                                     showMarkerInfo(clickedMarker)
                                 }
-
-                                val userLocation = getUserLocation()
-                                val userLatitude = userLocation.latitude
-                                val userLongitude = userLocation.longitude
-                                val userPoint = GeoPoint(userLatitude, userLongitude)
-
-                                val sitePoint = marker.position
-
-                                calcularRuta(userPoint, sitePoint)
                                 true
                             }
                             mapView.overlays.add(marker)
@@ -207,7 +210,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun calcularRuta(userLocation: GeoPoint, destination: GeoPoint) {
-        val graphFilePath = File(requireContext().getExternalFilesDir(null), "assets/Nogales_2024-10-16_205049.zip")
+        val graphFilePath = File(requireContext().getExternalFilesDir(null), "Nogales_2024-10-16_205049.zip")
 
         if (!graphFilePath.exists()) {
             Toast.makeText(requireContext(), "El archivo de ruta no existe", Toast.LENGTH_SHORT).show()
@@ -216,7 +219,13 @@ class HomeFragment : Fragment() {
 
         val graphHopper = GraphHopper().apply {
             setGraphHopperLocation(graphFilePath.absolutePath)
-            encodingManager = EncodingManager.create("car") // Configura el perfil, ejemplo: "car"
+            setProfiles(
+                Profile("car").apply {
+                    vehicle = "car"
+                    weighting = "fastest"
+                    isTurnCosts = false
+                }
+            )
             importOrLoad()
         }
 
@@ -225,9 +234,8 @@ class HomeFragment : Fragment() {
 
         val request = GHRequest(startPoint, endPoint).apply {
             algorithm = Parameters.Algorithms.DIJKSTRA
-            hints = HintsMap().apply {
-                put(Parameters.CH.DISABLE, true) // Desactiva la jerarquía contratada si no está precargada
-            }
+            setProfile("car")
+            this.putHint(Parameters.CH.DISABLE, true)
         }
 
         val response = graphHopper.route(request)
@@ -240,13 +248,13 @@ class HomeFragment : Fragment() {
         val path: ResponsePath = response.best
 
         if (path.points.size() > 0) {
-            val polyline = Polyline().apply {
-                setPoints(path.points.map { GeoPoint(it.lat, it.lon) })
-                color = Color.BLUE
-                width = 10f
-            }
+            val pathOverlay = Polyline(mapView)
+            pathOverlay.outlinePaint.strokeWidth = 10f
+            pathOverlay.outlinePaint.color = Color.BLUE
+            pathOverlay.setPoints(path.points.map { GeoPoint(it.lat, it.lon) })
 
-            mapView.overlays.add(polyline)
+
+            mapView.overlayManager.add(pathOverlay)
             mapView.invalidate()
         } else {
             Toast.makeText(requireContext(), "No se pudo calcular la ruta", Toast.LENGTH_SHORT).show()
@@ -254,62 +262,105 @@ class HomeFragment : Fragment() {
     }
 
 
-    private fun getUserLocation(callback: (Location?) -> Unit) {
+    @SuppressLint("SuspiciousIndentation")
+    private fun getUserLocation(): Location? {
         val fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
-        val locationRequest = LocationRequest.create().apply {
-            interval = 10000
-            fastestInterval = 5000
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        }
+        val locationRequest = LocationRequest.Builder(1000)
+            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+            .setMaxUpdates(1)
+            .build()
 
         val locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
-                val location = locationResult.lastLocation
-                callback(location)
+                locationResult.let{
+                    val location = locationResult.lastLocation
+                    if (location != null){
+                        val latitude = location.latitude
+                        val longitude = location.longitude
+
+                        val geoPoint = GeoPoint(latitude, longitude)
+                        showUserLocation(geoPoint)
+                    }
+                }
             }
         }
 
-        if (ActivityCompat.checkSelfPermission(
+        if(ActivityCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED &&
             ActivityCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        )
-
+            ) != PackageManager.PERMISSION_GRANTED)
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
-        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            callback(location)
+        val locationTask: Task<Location> = fusedLocationClient.lastLocation
+        locationTask.addOnSuccessListener { location ->
+            location?.let {
+                val latitude = location.latitude
+                val longitude = location.longitude
+                val geoPoint = GeoPoint(latitude, longitude)
+                showUserLocation(geoPoint)
+            }
+        }
+        return null
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun showUserLocation(geoPoint: GeoPoint){
+        val mapController = mapView.controller
+
+        mapController.setCenter(geoPoint)
+        mapController.setZoom(15.0)
+        if(userLocationMarker == null){
+            userLocationMarker = Marker(mapView).apply {
+                position = geoPoint
+                icon = resources.getDrawable(R.drawable.baseline_location_on_24)
+                title = "Tu Ubicacion"
+            }
+            mapView.overlays.add(userLocationMarker)
+        }else{
+            userLocationMarker!!.position = geoPoint
         }
     }
 
 
     private suspend fun showMarkerInfo(marker: Marker) {
         val sitioId = marker.relatedObject as? Int
-        val sitio = sitioId?.let { db.sitioDao().getSitioById(it) }
+        sitioId?.let{ id ->
+            val sitio = db.sitioDao().getSitioById(id)
 
-        sitio?.let {
-            AlertDialog.Builder(requireContext())
-                .setTitle(it.nombre)
-                .setMessage(it.informacion)
-                .setPositiveButton("Ver detalles") { _, _ ->
-                    val action = HomeFragmentDirections.actionHomeFragmentToDetalleSitioFragment(it.id)
-                    findNavController().navigate(action)
-                }
-                .setNegativeButton("Mostrar Ruta") { _, _ ->
-                    val userLocation = getUserLocation()
-                    val startPoint = GeoPoint(userLocation.latitude, userLocation.longitude)
-                    val destination = GeoPoint(it.latitude, it.longitude)
-                    calcularRuta(startPoint, destination)
-                }
-                .setNeutralButton("Cerrar", null)
-                .setCancelable(true)
-                .create()
-                .show()
+            sitio?.let {
+                AlertDialog.Builder(requireContext())
+                    .setTitle(it.nombre)
+                    .setMessage(it.informacion)
+                    .setPositiveButton("Ver detalles") { _, _ ->
+                        navigateToDetalleSitioFragment(it.id)
+                    }
+                    .setNegativeButton("Mostrar Ruta") { _, _ ->
+                        val userLocation = getUserLocation()
+                        if (userLocation != null){
+                            val startPoint = GeoPoint(userLocation.latitude, userLocation.longitude)
+                            val destination = GeoPoint(it.latitude, it.longitude)
+                            calcularRuta(startPoint, destination)
+                        }else{
+                            Toast.makeText(requireContext(), "No se pudo obtener tu ubicación", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    .setNeutralButton("Cerrar", null)
+                    .setCancelable(true)
+                    .create()
+                    .show()
+            }
+        } ?: run{
+            Toast.makeText(requireContext(), "Sitio no encontrado", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun navigateToDetalleSitioFragment(sitioId: Int){
+        val action = HomeFragmentDirections.actionHomeFragmentToDetalleSitioFragment(sitioId)
+        findNavController().navigate(action)
     }
 
 

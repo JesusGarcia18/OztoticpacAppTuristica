@@ -139,10 +139,7 @@ class Sitios (private val db: AppDatabase){
                         nombreContacto = "",
                         latitude = 18.793697,
                         longitude = -97.197740,
-
-                        )
-                )
-                        db.sitioDao().insertSitio(
+                        ),
                     Sitio(
                         nombre = "Cueva del Diablo",
                         categoria = "Naturales-Culturales",
@@ -156,9 +153,7 @@ class Sitios (private val db: AppDatabase){
                         latitude = 18.791071,
                         longitude = -97.191756,
 
-                        )
-                )
-                        db.sitioDao().insertSitio(
+                        ),
                     Sitio(
                         nombre = "Taza de Agua",
                         categoria = "Naturales-Culturales",
@@ -172,9 +167,7 @@ class Sitios (private val db: AppDatabase){
                         latitude = 18.777050,
                         longitude = -97.204579,
 
-                        )
-                )
-                        db.sitioDao().insertSitio(
+                        ),
                     Sitio(
                         nombre = "Paseo de los Ahuehuetes",
                         categoria = "Naturales-Culturales",
@@ -188,9 +181,7 @@ class Sitios (private val db: AppDatabase){
                         latitude = 18.789134,
                         longitude = -97.197081,
 
-                        )
-                )
-                        db.sitioDao().insertSitio(
+                        ),
                     Sitio(
                         nombre = "Cañon del Rio Blanco",
                         informacion = "Adéntrate en el impresionante Cañón del Río Blanco, una maravilla natural que atraviesa varios municipios de Veracruz, incluido Nogales. Este lugar combina paisajes espectaculares, biodiversidad y un fuerte sentido de conexión con la naturaleza.",
@@ -203,9 +194,7 @@ class Sitios (private val db: AppDatabase){
                         latitude = 18.798457,
                         longitude = -97.205433,
 
-                        )
-                )
-                        db.sitioDao().insertSitio(
+                        ),
                     Sitio(
                         nombre = "Parroquia de San Isidro Labrador",
                         categoria = "Historicos",
@@ -221,9 +210,7 @@ class Sitios (private val db: AppDatabase){
                         latitude = 18.813328,
                         longitude = -97.194795,
 
-                        )
-                )
-                        db.sitioDao().insertSitio(
+                        ),
                     Sitio(
                         nombre = "Parroquia de San Juan Bautista",
                         categoria = "Historicos",
@@ -239,9 +226,7 @@ class Sitios (private val db: AppDatabase){
                         latitude = 18.822170,
                         longitude = -97.162675,
 
-                        )
-                )
-                        db.sitioDao().insertSitio(
+                        ),
                     Sitio(
                         nombre = "Ex Fabrica \"San Lorenzo\"",
                         categoria = "Historicos",
@@ -257,9 +242,7 @@ class Sitios (private val db: AppDatabase){
                         latitude = 18.816083,
                         longitude = -97.164697,
 
-                        )
-                )
-                        db.sitioDao().insertSitio(
+                        ),
                     Sitio(
                         nombre = "Tuneles Ferreos de la Carbonera (Rosecranz)",
                         categoria = "Historicos",
@@ -277,9 +260,7 @@ class Sitios (private val db: AppDatabase){
                         latitude = 18.853168,
                         longitude = -97.196271,
 
-                        )
-                )
-                        db.sitioDao().insertSitio(
+                        ),
                     Sitio(
                         nombre = "Antigua Ruta del Ferrocarril",
                         categoria = "Historicos",
@@ -297,9 +278,7 @@ class Sitios (private val db: AppDatabase){
                         latitude = 18.818216,
                         longitude = -97.227144,
 
-                        )
-                )
-                        db.sitioDao().insertSitio(
+                        ),
                     Sitio(
                         nombre = "Xipatlani",
                         categoria = "Gastronomicos",
@@ -316,9 +295,7 @@ class Sitios (private val db: AppDatabase){
                         latitude = 18.818947,
                         longitude = -97.161980,
 
-                        )
-                )
-                        db.sitioDao().insertSitio(
+                        ),
                     Sitio(
                         nombre = "Los Portales de Nogales",
                         categoria = "Gastronomicos",
@@ -333,9 +310,7 @@ class Sitios (private val db: AppDatabase){
                         latitude = 18.821796,
                         longitude = -97.162692,
 
-                        )
-                )
-                        db.sitioDao().insertSitio(
+                        ),
                     Sitio(
                         nombre = "La Pizza",
                         categoria = "Gastronomicos",
@@ -355,9 +330,7 @@ class Sitios (private val db: AppDatabase){
                         latitude = 18.821760,
                         longitude = -97.162661,
 
-                        )
-                )
-                        db.sitioDao().insertSitio(
+                        ),
                     Sitio(
                         nombre = "Campestre Yecapixtla",
                         categoria = "Gastronomicos",
@@ -374,9 +347,7 @@ class Sitios (private val db: AppDatabase){
                         latitude = 18.787305,
                         longitude = -97.199145,
 
-                        )
-                )
-                        db.sitioDao().insertSitio(
+                        ),
                     Sitio(
                         nombre = "Chicahuaxtla Bosque Encantado",
                         categoria = "Gastronomicos",
@@ -398,9 +369,7 @@ class Sitios (private val db: AppDatabase){
                         latitude = 18.854854,
                         longitude = -97.212309,
 
-                        )
-                )
-                        db.sitioDao().insertSitio(
+                        ),
                     Sitio(
                         nombre = "Balneario Relax",
                         categoria = "Recreativos",
@@ -414,9 +383,7 @@ class Sitios (private val db: AppDatabase){
                         latitude = 18.788631,
                         longitude = -97.197843,
 
-                        )
-                )
-                        db.sitioDao().insertSitio(
+                        ),
                     Sitio(
                         nombre = "El Eden",
                         categoria = "Recreativos",
@@ -430,9 +397,7 @@ class Sitios (private val db: AppDatabase){
                         latitude = 18.787324,
                         longitude = -97.199241,
 
-                        )
-                )
-                        db.sitioDao().insertSitio(
+                        ),
                     Sitio(
                         nombre = "Campo Deportivo \"Famosa\"",
                         categoria = "Recreativos",
@@ -446,9 +411,7 @@ class Sitios (private val db: AppDatabase){
                         latitude = 18.822449,
                         longitude = -97.159153,
 
-                        )
-                )
-                        db.sitioDao().insertSitio(
+                        ),
                     Sitio(
                         nombre = "Hotel Boutique \"El Mesón de Samaria\"",
                         categoria = "hoteles",
@@ -467,9 +430,7 @@ class Sitios (private val db: AppDatabase){
                         contactos = "272 175 7844",
                         latitude = 18.825458,
                         longitude = -97.161311,
-                    )
-                )
-                        db.sitioDao().insertSitio(
+                    ),
                     Sitio(
                         nombre = "Laguna Real de Nogales",
                         categoria = "hoteles",
@@ -485,9 +446,7 @@ class Sitios (private val db: AppDatabase){
                         nombreContacto = "",
                         latitude = 18.821513,
                         longitude = -97.162616,
-                    )
-                )
-                        db.sitioDao().insertSitio(
+                    ),
                     Sitio(
                         nombre = "Posada \"Las Garzas\"",
                         categoria = "hoteles",
@@ -501,9 +460,7 @@ class Sitios (private val db: AppDatabase){
                         contactos = "272 246 0568",
                         latitude = 18.819446,
                         longitude = -97.164488,
-                    )
-                )
-                        db.sitioDao().insertSitio(
+                    ),
                     Sitio(
                         nombre = "Cabañas Chicahuaxtla \"Bosque Encantado\"",
                         categoria = "hoteles",

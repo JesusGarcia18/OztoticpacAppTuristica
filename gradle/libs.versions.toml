@@ -47,4 +47,4 @@ taptargetview = { module = "com.getkeepsafe.taptargetview:taptargetview", versio
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-
+androidx-navigation-safe-args = { id = "androidx.navigation.safeargs.kotlin", version = "2.8.4" }

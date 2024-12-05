@@ -12,15 +12,19 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_detalleSitioFragment"
-            app:destination="@id/detalleSitioFragment" />
+            app:destination="@id/detalleSitioFragment">
+            <argument
+                android:name="sitioId"
+                app:argType="integer"/>
+        </action>
     </fragment>
 
     <fragment
         android:id="@+id/detalleSitioFragment"
         android:name="com.example.oztoticpacappturistica.DetalleSitioFragment"
         tools:layout="@layout/fragment_detalle_sitio">
-        <action
-            android:name="sitioId"
+        <argument
+            android:name ="sitioId"
             app:argType="integer"/>
     </fragment>
 
