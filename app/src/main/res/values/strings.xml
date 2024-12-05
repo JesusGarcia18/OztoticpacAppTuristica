@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">OztoticpacAppTuristica</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="imagen_del_sitio">Imagen del sitio</string>
+    <string name="informacion_del_sitio">Informacion del Sitio</string>
+    <string name="informacion">Informacion</string>
+    <string name="historia_del_sitio">Historia del Sitio</string>
+    <string name="historia">Historia</string>
+    <string name="costos_del_sitio">Costos del Sitio</string>
+    <string name="costos">Costos</string>
+    <string name="horarios_del_sitio">Horarios del Sitio</string>
+    <string name="horarios">Horarios</string>
+    <string name="menu_del_restaurante">Menu del Restaurante</string>
+    <string name="menu">Menu</string>
+    <string name="servicios_del_sitio">Servicios del Sitio</string>
+    <string name="servicios">Servicios</string>
+    <string name="nombre_del_contacto">Nombre del Contacto</string>
+    <string name="contacto">Contacto</string>
+    <string name="numero_del_contacto">Numero del Contacto</string>
+    <string name="numeros_de_contacto">Numeros de Contacto</string>
+    <string name="nombre_del_sitio_turistico">Nombre del Sitio Turistico</string>
+    <string name="nombre_del_sitio">Nombre del Sitio</string>
+</resources>

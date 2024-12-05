@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetalleSitioFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/imagenSitio"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:contentDescription="@string/imagen_del_sitio"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_menu_gallery" />
+
+            <TextView
+                android:id="@+id/nombreSitio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/nombre_del_sitio_turistico"
+                android:text="@string/nombre_del_sitio"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/informacionSitio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/InformacionSitio"
+                android:contentDescription="@string/informacion_del_sitio"
+                android:padding="16dp"
+                android:text="@string/informacion"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/historiaSitio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/HistoriaSitio"
+                android:contentDescription="@string/historia_del_sitio"
+                android:padding="16dp"
+                android:text="@string/historia"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/costosSitio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/CostosSitio"
+                android:contentDescription="@string/costos_del_sitio"
+                android:padding="16dp"
+                android:text="@string/costos"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/horariosSitio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/HorariosSitio"
+                android:contentDescription="@string/horarios_del_sitio"
+                android:padding="16dp"
+                android:text="@string/horarios"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/menuSitio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/MenuSitio"
+                android:contentDescription="@string/menu_del_restaurante"
+                android:padding="16dp"
+                android:text="@string/menu"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/serviciosSitio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/ServiciosSitio"
+                android:contentDescription="@string/servicios_del_sitio"
+                android:padding="16dp"
+                android:text="@string/servicios"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/nombreContacto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/NombreContacto"
+                android:contentDescription="@string/nombre_del_contacto"
+                android:padding="16dp"
+                android:text="@string/contacto"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/contactosSitio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/ContactosSitio"
+                android:contentDescription="@string/numero_del_contacto"
+                android:padding="16dp"
+                android:text="@string/numeros_de_contacto"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</FrameLayout>
