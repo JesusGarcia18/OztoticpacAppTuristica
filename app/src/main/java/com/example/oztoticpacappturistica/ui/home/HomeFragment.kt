@@ -2,52 +2,45 @@ package com.example.oztoticpacappturistica.ui.home
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
+import android.graphics.Color
+import android.location.Location
 import android.os.Bundle
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.graphics.Color
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.example.oztoticpacappturistica.R
 import com.example.oztoticpacappturistica.databinding.FragmentHomeBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.Task
+import com.graphhopper.GHRequest
+import com.graphhopper.GraphHopper
+import com.graphhopper.ResponsePath
+import com.graphhopper.config.Profile
+import com.graphhopper.util.Parameters
+import com.graphhopper.util.shapes.GHPoint
+import databases.AppDatabase
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.osmdroid.tileprovider.tilesource.XYTileSource
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.Polyline
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserFactory
 import java.io.File
 import java.io.InputStream
 import java.io.InputStreamReader
-import java.io.OutputStream
-import java.util.zip.ZipEntry
-import java.util.zip.ZipInputStream
-import android.content.pm.PackageManager
-import android.location.Location
-import android.os.Looper
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
-import androidx.navigation.fragment.findNavController
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
-import com.graphhopper.GHRequest
-import com.graphhopper.GraphHopper
-import com.graphhopper.ResponsePath
-import com.graphhopper.util.Parameters
-import com.graphhopper.util.shapes.GHPoint
-import org.osmdroid.views.overlay.Polyline
-import com.example.oztoticpacappturistica.R
-import com.google.android.gms.tasks.Task
-import com.graphhopper.config.Profile
-import databases.AppDatabase
-import kotlinx.coroutines.DelicateCoroutinesApi
 
 @Suppress("DEPRECATION")
 class HomeFragment : Fragment() {
@@ -61,7 +54,6 @@ class HomeFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
     private lateinit var mapView: MapView
-    private val destinationDir = File(requireContext().getExternalFilesDir(null), "Nogales_2024-10-16_205049")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -75,7 +67,6 @@ class HomeFragment : Fragment() {
 
 
         mapView = binding.mapOffline
-        setupMap(destinationDir)
 
         return root
     }
@@ -88,78 +79,25 @@ class HomeFragment : Fragment() {
         setupOfflineMap()
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
     private fun setupOfflineMap(){
-        if (!destinationDir.exists()){
-            destinationDir.mkdirs()
-        }
-
-        val mapZipFileName = "Nogales_2024-10-16_205049.zip"
-        val zipFileExists = File(destinationDir, mapZipFileName).exists()
-
-        if (!zipFileExists){
-            GlobalScope.launch(Dispatchers.Main){
-                withContext(Dispatchers.IO){
-                    extractZipAsset(mapZipFileName, destinationDir)
-                }
-            }
-        }
-
-        setupMap(destinationDir)
-    }
-
-    private suspend fun extractZipAsset(assetName: String, destinationDir: File){
-        val assetManager = requireContext().assets
-        val zipFile = assetManager.open(assetName)
-        val zipInputStream = ZipInputStream(zipFile)
-
-        var zipEntry: ZipEntry?
-
-        while(zipInputStream.nextEntry.also { zipEntry = it } != null){
-            val newFile = File(destinationDir, zipEntry!!.name)
-            if(zipEntry!!.isDirectory){
-                newFile.mkdirs()
-            }else{
-                val outputStream: OutputStream = newFile.outputStream()
-                val buffer = ByteArray(1024)
-                var length: Int
-                while (withContext(Dispatchers.IO) {
-                        zipInputStream.read(buffer)
-                    }.also { length = it } != -1){
-                    withContext(Dispatchers.IO) {
-                        outputStream.write(buffer, 0, length)
-                    }
-                }
-                withContext(Dispatchers.IO) {
-                    outputStream.close()
-                }
-            }
-            withContext(Dispatchers.IO) {
-                zipInputStream.closeEntry()
-            }
-        }
-        withContext(Dispatchers.IO) {
-            zipInputStream.close()
-        }
-    }
-
-    private fun setupMap(destinationDir: File){
+        val destinationDir = File(requireContext().filesDir, "Nogales_2024-10-16_205049")
         val tileSource = XYTileSource(
             "Nogales",
             0, 16,
             256,
             ".png",
-            arrayOf(destinationDir.absolutePath)
+            arrayOf(File("file:///android_asset/Nogales_2024-10-16_205049/OSMPublicTransport").absolutePath)
         )
         mapView.setTileSource(tileSource)
         mapView.setMultiTouchControls(true)
         mapView.controller.setZoom(15.0)
-        mapView.controller.setCenter(GeoPoint(18.8206, -97.1645))
+        mapView.controller.setCenter(GeoPoint(18.8194, -97.1432))
 
         val gpxFile = File(destinationDir, "waypoints.gpx")
         if (gpxFile.exists()){
             loadWaypointsFromGPX()
         }
+
     }
 
     private fun loadWaypointsFromGPX() {
@@ -210,7 +148,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun calcularRuta(userLocation: GeoPoint, destination: GeoPoint) {
-        val graphFilePath = File(requireContext().getExternalFilesDir(null), "Nogales_2024-10-16_205049.zip")
+        val graphFilePath = File(requireContext().getExternalFilesDir(null), "Nogales_2024-10-16_205049")
 
         if (!graphFilePath.exists()) {
             Toast.makeText(requireContext(), "El archivo de ruta no existe", Toast.LENGTH_SHORT).show()
@@ -359,7 +297,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun navigateToDetalleSitioFragment(sitioId: Int){
-        val action = HomeFragmentDirections.actionHomeFragmentToDetalleSitioFragment(sitioId)
+        val action = HomeFragmentDirections.actionNavHomeToDetalleSitioFragment(sitioId)
         findNavController().navigate(action)
     }
 

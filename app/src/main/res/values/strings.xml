@@ -12,6 +12,7 @@
     <string name="menu_slideshow">Slideshow</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="detalle_sitio">detalle del sitio</string>
     <string name="imagen_del_sitio">Imagen del sitio</string>
     <string name="informacion_del_sitio">Informacion del Sitio</string>
     <string name="informacion">Informacion</string>

@@ -18,6 +18,9 @@ import com.example.oztoticpacappturistica.databinding.ActivityMainBinding
 import databases.Sitios
 import kotlinx.coroutines.launch
 import databases.AppDatabase
+import kotlinx.coroutines.withContext
+import org.osmdroid.config.Configuration
+import kotlinx.coroutines.Dispatchers
 
 class MainActivity : AppCompatActivity() {
 
@@ -62,11 +65,24 @@ class MainActivity : AppCompatActivity() {
         sitios = Sitios(db)
 
         lifecycleScope.launch {
-            val sitiosExistentes = db.sitioDao().getAllSitios()
-            if (sitiosExistentes.isEmpty()){
-                sitios.insertarSitios()
+            withContext(Dispatchers.IO) {
+                val sitiosExistentes = db.sitioDao().getAllSitios()
+                if (sitiosExistentes.isEmpty()){
+                    sitios.insertarSitios()
+                }
             }
         }
+    }
+
+    override fun onStart(){
+        super.onStart()
+        initOsmdroid()
+    }
+
+    private fun initOsmdroid(){
+        val settings = Configuration.getInstance()
+        val sharedPreferences = getSharedPreferences("osmdroid_prefs", MODE_PRIVATE)
+        settings.load(applicationContext, sharedPreferences)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

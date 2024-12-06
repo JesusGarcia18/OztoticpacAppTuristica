@@ -11,21 +11,12 @@
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_homeFragment_to_detalleSitioFragment"
+            android:id="@+id/action_nav_home_to_detalleSitioFragment"
             app:destination="@id/detalleSitioFragment">
             <argument
                 android:name="sitioId"
-                app:argType="integer"/>
+                app:argType="integer" />
         </action>
-    </fragment>
-
-    <fragment
-        android:id="@+id/detalleSitioFragment"
-        android:name="com.example.oztoticpacappturistica.DetalleSitioFragment"
-        tools:layout="@layout/fragment_detalle_sitio">
-        <argument
-            android:name ="sitioId"
-            app:argType="integer"/>
     </fragment>
 
     <fragment
@@ -39,4 +30,14 @@
         android:name="com.example.oztoticpacappturistica.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/detalleSitioFragment"
+        android:name="com.example.oztoticpacappturistica.DetalleSitioFragment"
+        android:label="@string/detalle_sitio"
+        tools:layout="@layout/fragment_detalle_sitio">
+        <argument
+            android:name ="sitioId"
+            app:argType="integer"/>
+    </fragment>
 </navigation>
