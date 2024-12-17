@@ -18,7 +18,7 @@ class Sitios (private val db: AppDatabase){
                     latitude = 18.820646,
                     longitude = -97.164477
                 ),
-                        Sitio (
+                Sitio (
                             nombre = "Sitio Turistico de Relajacion OZTOTIPAC",
                             categoria = "Naturales-Culturales",
                             informacion = "Rincon de relajacion, con metodos herbolaricos y naturales.",
@@ -30,7 +30,7 @@ class Sitios (private val db: AppDatabase){
                             nombreContacto = "",
                             latitude = 18.820392,
                             longitude = -97.165617
-                            ),
+                ),
                 Sitio(
                     nombre = "Sendero Cerro de la Capilla",
                     categoria = "Naturales-Culturales",
@@ -59,7 +59,7 @@ class Sitios (private val db: AppDatabase){
 
                         ),
                     Sitio(
-                        nombre = "Cueva de Marmol",
+                        nombre = "Inicio del Sendero a Cueva de Marmol",
                         categoria = "Naturales-Culturales",
                         informacion = "Un fascinante rincón natural con formaciones de mármol únicas y un aire de misterio.",
                         historia = "La Cueva del Mármol es un tesoro escondido de Nogales, conocida por sus espectaculares formaciones naturales que brillan como mármol bajo la luz. Este lugar ha sido objeto de historias y leyendas, algunas relacionadas con tesoros escondidos y encuentros misteriosos en su interior. Además de su valor geológico, la cueva ha sido explorada por generaciones, siendo un sitio de interés tanto para aventureros como para quienes buscan un momento de tranquilidad rodeados por la belleza de la naturaleza.",
@@ -73,7 +73,7 @@ class Sitios (private val db: AppDatabase){
 
                         ),
                     Sitio(
-                        nombre = "Mirador y Sendero Palo Verde",
+                        nombre = "Mirador y Sendero \"Palo Verde\"",
                         categoria = "Naturales-Culturales",
                         informacion = "Un pintoresco sendero que conecta con el Cañón de la Carbonera y culmina en un mirador con vistas espectaculares.",
                         historia = "El Sendero de Palo Verde es una extensión del recorrido por el Cañón de la Carbonera, diseñado para los aventureros que desean explorar más a fondo la belleza de la región. Este sendero serpentea a través de áreas de densa vegetación y termina en el Mirador de Palo Verde, un punto privilegiado para contemplar la inmensidad del cañón y los paisajes de Nogales. Antiguamente, este mirador fue utilizado por los habitantes como un punto de observación para protegerse de posibles amenazas, y ahora es un lugar de paz y reflexión para quienes lo visitan.",
@@ -87,7 +87,7 @@ class Sitios (private val db: AppDatabase){
 
                         ),
                     Sitio(
-                        nombre = "Mirador Piedra del Aguila",
+                        nombre = "Mirador \"Piedra del Aguila\"",
                         categoria = "Naturales-Culturales",
                         informacion = "Mirador natural en el Cañón de La Carbonera, ideal para actividades al aire libre.",
                         historia = "La Piedra del Águila se alza como un mirador icónico en Nogales, Veracruz, a más de 130 metros sobre el Cañón de La Carbonera. Su forma distintiva, similar a la cabeza de un águila en vuelo, le da su nombre. Parte del sendero ecoturístico Palo Verde, este sitio conecta con otros atractivos de la región, incluyendo vistas hacia el majestuoso Pico de Orizaba.\n" +
@@ -115,7 +115,7 @@ class Sitios (private val db: AppDatabase){
                         longitude = -97.196338
                 ),
                     Sitio(
-                        nombre = "Ojo de Agua del Encinar",
+                        nombre = "Ojito de Agua \"El Encinar\"",
                         categoria = "Naturales-Culturales",
                         informacion = "El Ojo de Agua de El Encinar es un balneario natural caracterizado por sus aguas cristalinas, perfecto para disfrutar un día en contacto con la naturaleza.",
                         historia = "Este manantial natural tiene una larga historia como punto de recreación en la región. Su nombre, \"Ojo de Agua,\" resalta su carácter como fuente de agua natural. La zona es muy apreciada tanto por locales como por turistas que buscan relajarse en un ambiente sereno y disfrutar del contacto con la naturaleza. Su agua se considera relajante y terapéutica, lo que lo convierte en un destino especial para los visitantes. La preservación del sitio es manejada por la comunidad local, quienes mantienen el espacio limpio y bien cuidado.",
@@ -280,7 +280,7 @@ class Sitios (private val db: AppDatabase){
 
                         ),
                     Sitio(
-                        nombre = "Xipatlani",
+                        nombre = "Restaurante Xipatlani",
                         categoria = "Gastronomicos",
                         informacion = "Restaurante de comida tradicional mexicana con toque contemporaneo que te invita a descubrir la riqueza cultural y culinaria de la región.",
                         historia = "Xipatlani toma su nombre de la palabra náhuatl que significa \"rebosar\" o \"abundancia\", reflejando su filosofía de ofrecer generosidad en sabores y experiencias. Inaugurado como un proyecto familiar, el restaurante se ha convertido en un referente local, destacándose por su compromiso con ingredientes frescos y platillos que rinden homenaje a las raíces de la región.\n" +
@@ -325,8 +325,8 @@ class Sitios (private val db: AppDatabase){
                                 "Complementos: \$50 - \$120 MXN.",
                         horarios = "Abierto de Miercoles a Lunes, en un horario de 14:00 a 21:30 horas.",
                         servicios = "Ofrece servicio de comida rapida, envio a domicilio, y bar.",
-                        contactos = "Servicio a Domicilio La Pizza:",
-                        nombreContacto = "WhatsApp: 272 119 4404\n" + "Local: 272 171 1195",
+                        contactos = "WhatsApp: 272 119 4404\\n\" + \"Local: 272 171 1195",
+                        nombreContacto = "Servicio a Domicilio La Pizza:",
                         latitude = 18.821760,
                         longitude = -97.162661,
 
@@ -349,7 +349,7 @@ class Sitios (private val db: AppDatabase){
 
                         ),
                     Sitio(
-                        nombre = "Chicahuaxtla Bosque Encantado",
+                        nombre = "Restaurante Chicahuaxtla",
                         categoria = "Gastronomicos",
                         informacion = "Chicahuaxtla Bosque Encantado es un restaurante que combina un entorno natural y relajante con una cocina inspirada en sabores regionales y tradicionales. Es un destino ideal para quienes buscan disfrutar de una buena comida mientras se rodean de la magia del bosque.",
                         historia = "Ubicado en las faldas del bosque de Nogales, Chicahuaxtla se ha consolidado como un lugar para conectar con la naturaleza mientras se deleitan los sentidos. Con su nombre inspirado en la palabra náhuatl \"Chicahuaxtla\", que significa \"lugar fuerte o robusto\", el restaurante promueve la conservación del entorno y la cultura local. Desde su apertura, ha sido un punto de encuentro para familias, excursionistas y turistas que buscan una experiencia gastronómica única.",
@@ -385,7 +385,7 @@ class Sitios (private val db: AppDatabase){
 
                         ),
                     Sitio(
-                        nombre = "El Eden",
+                        nombre = "Balneario El Eden",
                         categoria = "Recreativos",
                         informacion = "El Edén es un centro recreativo que combina la belleza natural con instalaciones para el entretenimiento familiar. Su ambiente rodeado de vegetación lo convierte en un lugar perfecto para relajarse y disfrutar de un día diferente en Nogales, Veracruz.",
                         historia = "Desde su apertura, El Edén ha buscado ser un espacio de encuentro para la comunidad, fomentando la convivencia y el turismo en la región. Su nombre hace referencia a la idea de un \"paraíso terrenal\", y los visitantes lo encuentran como un lugar ideal para escapar del ritmo de la vida cotidiana.",

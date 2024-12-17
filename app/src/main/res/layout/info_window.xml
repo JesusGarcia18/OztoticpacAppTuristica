@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
+    android:padding="16dp"
+    android:background="@drawable/info_window_background">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/Gris_carbon" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/Gris_carbon" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <Button
+            android:id="@+id/btnDetalles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/detalles"
+            android:textColor="@color/Gris_carbon"
+            android:backgroundTint="@color/white"
+            style="?android:attr/buttonBarStyle"/>
+
+        <Button
+            android:id="@+id/btnRuta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ruta"
+            android:textColor="@color/Gris_carbon"
+            android:backgroundTint="@color/white"
+            style="?android:attr/buttonBarStyle"/>
+
+        <Button
+            android:id="@+id/btnCerrar"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/cerrar_ventana"
+            android:drawableEnd="@drawable/baseline_close_24" />
+
+    </LinearLayout>
+
+</LinearLayout>

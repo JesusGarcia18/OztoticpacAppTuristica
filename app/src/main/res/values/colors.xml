@@ -17,4 +17,7 @@
     <color name="ContactosSitio">#B9F6CA</color>
     <color name="bg_main">#80CBC4</color>
     <color name="titulo">#E8F5E9</color>
+    <color name="menta_suave">#E0FFFF</color>
+    <color name="Verde_grisáceo">#D3D3D3</color>
+    <color name="Gris_carbon">#36454F</color>
 </resources>

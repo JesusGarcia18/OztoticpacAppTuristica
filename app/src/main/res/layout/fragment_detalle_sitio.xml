@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
         tools:ignore="UselessParent">
 
         <LinearLayout
@@ -17,15 +16,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="?attr/actionBarSize"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="5dp">
 
             <ImageView
                 android:id="@+id/imagenSitio"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:contentDescription="@string/imagen_del_sitio"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_menu_gallery" />
+                android:scaleType="centerCrop"/>
 
             <TextView
                 android:id="@+id/nombreSitio"
@@ -33,9 +31,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:contentDescription="@string/nombre_del_sitio_turistico"
-                android:text="@string/nombre_del_sitio"
+                android:lineSpacingExtra="4sp"
                 android:textColor="@color/black"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/informacionSitio"
@@ -44,10 +43,12 @@
                 android:layout_marginTop="16dp"
                 android:background="@color/InformacionSitio"
                 android:contentDescription="@string/informacion_del_sitio"
+                android:fontFamily="@font/ar_one_sans"
+                android:lineSpacingExtra="4sp"
                 android:padding="16dp"
-                android:text="@string/informacion"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/historiaSitio"
@@ -56,10 +57,12 @@
                 android:layout_marginTop="16dp"
                 android:background="@color/HistoriaSitio"
                 android:contentDescription="@string/historia_del_sitio"
+                android:fontFamily="@font/ar_one_sans"
+                android:lineSpacingExtra="4sp"
                 android:padding="16dp"
-                android:text="@string/historia"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/costosSitio"
@@ -68,10 +71,12 @@
                 android:layout_marginTop="16dp"
                 android:background="@color/CostosSitio"
                 android:contentDescription="@string/costos_del_sitio"
+                android:fontFamily="@font/ar_one_sans"
+                android:lineSpacingExtra="4sp"
                 android:padding="16dp"
-                android:text="@string/costos"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/horariosSitio"
@@ -80,10 +85,12 @@
                 android:layout_marginTop="16dp"
                 android:background="@color/HorariosSitio"
                 android:contentDescription="@string/horarios_del_sitio"
+                android:fontFamily="@font/ar_one_sans"
+                android:lineSpacingExtra="4sp"
                 android:padding="16dp"
-                android:text="@string/horarios"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/menuSitio"
@@ -92,10 +99,12 @@
                 android:layout_marginTop="16dp"
                 android:background="@color/MenuSitio"
                 android:contentDescription="@string/menu_del_restaurante"
+                android:fontFamily="@font/ar_one_sans"
+                android:lineSpacingExtra="4sp"
                 android:padding="16dp"
-                android:text="@string/menu"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/serviciosSitio"
@@ -104,10 +113,12 @@
                 android:layout_marginTop="16dp"
                 android:background="@color/ServiciosSitio"
                 android:contentDescription="@string/servicios_del_sitio"
+                android:fontFamily="@font/ar_one_sans"
+                android:lineSpacingExtra="4sp"
                 android:padding="16dp"
-                android:text="@string/servicios"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/nombreContacto"
@@ -116,10 +127,12 @@
                 android:layout_marginTop="16dp"
                 android:background="@color/NombreContacto"
                 android:contentDescription="@string/nombre_del_contacto"
+                android:fontFamily="@font/ar_one_sans"
+                android:lineSpacingExtra="4sp"
                 android:padding="16dp"
-                android:text="@string/contacto"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/contactosSitio"
@@ -128,8 +141,9 @@
                 android:layout_marginTop="16dp"
                 android:background="@color/ContactosSitio"
                 android:contentDescription="@string/numero_del_contacto"
+                android:fontFamily="@font/ar_one_sans"
+                android:lineSpacingExtra="4sp"
                 android:padding="16dp"
-                android:text="@string/numeros_de_contacto"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 

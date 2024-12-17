@@ -8,28 +8,99 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.oztoticpacappturistica.ui.home.HomeFragment"
-        android:label="@string/menu_home"
+        android:label="¿Qué desea visitar hoy?"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_nav_home_to_detalleSitioFragment"
             app:destination="@id/detalleSitioFragment">
             <argument
-                android:name="sitioId"
-                app:argType="integer" />
+                android:name="sitioNombre"
+                app:argType="string" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_naturales_culturales"
+        android:name="com.example.oztoticpacappturistica.naturales.NaturalesCulturales"
+        android:label="Sitios Naturales-Culturales"
+        tools:layout="@layout/fragment_naturales_culturales">
+        <action
+            android:id="@+id/action_naturalesFragment_to_detalleSitioFragment"
+            app:destination="@id/detalleSitioFragment">
+            <argument
+                android:name="sitioNombre"
+                app:argType="string" />
         </action>
     </fragment>
 
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.example.oztoticpacappturistica.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:label="Sitios Historicos"
+        tools:layout="@layout/fragment_gallery">
+        <action
+            android:id="@+id/action_historicosFragment_to_detalleSitioFragment"
+            app:destination="@id/detalleSitioFragment">
+            <argument
+                android:name="sitioNombre"
+                app:argType="string" />
+        </action>
+    </fragment>
 
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.example.oztoticpacappturistica.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:label="Sitios Gatronomicos"
+        tools:layout="@layout/fragment_slideshow">
+        <action
+            android:id="@+id/action_gastronomicosFragment_to_detalleSitioFragment"
+            app:destination="@id/detalleSitioFragment">
+            <argument
+                android:name="sitioNombre"
+                app:argType="string" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_recreativos"
+        android:name="com.example.oztoticpacappturistica.recreativos.Recreativos"
+        android:label="Sitios Recreativos"
+        android:layout="@layout/fragment_recreativos">
+    <action
+        android:id="@+id/action_recreativosFragment_to_detalleSitioFragment"
+        app:destination="@id/detalleSitioFragment">
+        <argument
+            android:name="sitioNombre"
+            app:argType="string" />
+    </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_hoteles"
+        android:name="com.example.oztoticpacappturistica.hoteles.Hoteles"
+        android:label="Hoteles"
+        android:layout="@layout/fragment_hoteles">
+        <action
+            android:id="@+id/action_hotelesFragment_to_detalleSitioFragment"
+            app:destination="@id/detalleSitioFragment">
+            <argument
+                android:name="sitioNombre"
+                app:argType="string" />
+        </action>
+        </fragment>
+
+    <fragment
+        android:id="@+id/nav_festividades"
+        android:name="com.example.oztoticpacappturistica.festividades.Festividades"
+        android:label="Festividades Locales"
+        android:layout="@layout/fragment_festividades"/>
+
+    <fragment
+        android:id="@+id/nav_historia"
+        android:name="com.example.oztoticpacappturistica.historia.HistoriaNogales"
+        android:label="Historia de Nogales"
+        android:layout="@layout/fragment_historia_nogales"/>
+
 
     <fragment
         android:id="@+id/detalleSitioFragment"
@@ -37,7 +108,38 @@
         android:label="@string/detalle_sitio"
         tools:layout="@layout/fragment_detalle_sitio">
         <argument
-            android:name ="sitioId"
-            app:argType="integer"/>
+            android:name ="sitioNombre"
+            app:argType="string"/>
     </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.oztoticpacappturistica.settings.SettingsFragment"
+        android:label="Ajustes"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_manageMapsFragment"
+            app:destination="@id/manageMapsFragment">
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/manageMapsFragment"
+        android:name="com.example.oztoticpacappturistica.offlineMaps.ManageMaps"
+        android:label="Gestion de Mapas Offline"
+        tools:layout="@layout/fragment_manage_maps"/>
+
+    <fragment
+        android:id="@+id/nav_about"
+        android:name="com.example.oztoticpacappturistica.about.About"
+        android:label="Acerca de"
+        tools:layout="@layout/fragment_about"/>
+
+    <fragment
+        android:id="@+id/nav_directorio"
+        android:name="com.example.oztoticpacappturistica.directorio.Directorio"
+        android:label="Directorio"
+        tools:layout="@layout/fragment_directorio"/>
+
+
 </navigation>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CircularBtnStyle" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/circular_button_background</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:drawablePadding">4dp</item>
+        <item name="android:minWidth">32dp</item>
+        <item name="android:minHeight">32dp</item>
+    </style>
+</resources>

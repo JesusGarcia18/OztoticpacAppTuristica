@@ -6,15 +6,39 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_home" />
+            android:icon="@drawable/baseline_map_24"
+            android:title="@string/nogales_sitios_turisticos" />
+        <item
+            android:id="@+id/nav_naturales_culturales"
+            android:icon="@drawable/baseline_park_24"
+            android:title="@string/sitios_naturales_culturales" />
         <item
             android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
+            android:icon="@drawable/baseline_museum_24"
+            android:title="@string/sitios_historicos" />
         <item
             android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:icon="@drawable/baseline_restaurant_24"
+            android:title="@string/sitios_gastronomicos" />
+        <item
+            android:id="@+id/nav_recreativos"
+            android:icon="@drawable/baseline_pool_24"
+            android:title="@string/sitios_recreativos"/>
+        <item
+            android:id="@+id/nav_hoteles"
+            android:icon="@drawable/baseline_hotel_24"
+            android:title="@string/hoteles"/>
+        <item
+            android:id="@+id/nav_festividades"
+            android:icon="@drawable/baseline_festival_24"
+            android:title="@string/festividades_locales"/>
+        <item
+            android:id="@+id/nav_historia"
+            android:icon="@drawable/baseline_menu_book_24"
+            android:title="@string/historia_de_nogales"/>
+        <item
+            android:id="@+id/nav_directorio"
+            android:icon="@drawable/baseline_contact_phone_24"
+            android:title="@string/directorio"/>
     </group>
 </menu>

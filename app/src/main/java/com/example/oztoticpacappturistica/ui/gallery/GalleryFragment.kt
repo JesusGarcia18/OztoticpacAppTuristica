@@ -4,39 +4,48 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.oztoticpacappturistica.databinding.FragmentGalleryBinding
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.oztoticpacappturistica.R
+import com.example.oztoticpacappturistica.SitioRepository
+import com.example.oztoticpacappturistica.SitiosCategoriaAdapter
+import databases.AppDatabase
+import databases.Sitio
+import kotlinx.coroutines.runBlocking
 
 class GalleryFragment : Fragment() {
 
-    private var _binding: FragmentGalleryBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private val imagenesSitios = mapOf(
+        "Laguna de Nogales" to R.drawable.laguna
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        val galleryViewModel =
-            ViewModelProvider(this).get(GalleryViewModel::class.java)
+    ): View? {
 
-        _binding = FragmentGalleryBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        val view = inflater.inflate(R.layout.fragment_gallery, container, false)
 
-        val textView: TextView = binding.textGallery
-        galleryViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
+        val sitios = obtenerHistoricos()
+
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
+        recyclerView?.adapter = SitiosCategoriaAdapter(sitios,{ sitio ->
+            val bundle = bundleOf("sitioNombre" to sitio.nombre)
+            findNavController().navigate(R.id.action_naturalesFragment_to_detalleSitioFragment, bundle)
+        }, imagenesSitios)
+        recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
+
+        return view
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun obtenerHistoricos(): List<Sitio> {
+        val sitioRepository = SitioRepository(AppDatabase.getInstance(requireContext()).sitioDao())
+        return runBlocking {
+            sitioRepository.obtenerSitiosPorCategoria("Historicos")
+        }
     }
 }
