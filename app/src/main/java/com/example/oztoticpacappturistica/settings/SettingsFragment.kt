@@ -47,6 +47,13 @@ class SettingsFragment : Fragment() {
                 description = "Descargar o Actualizar Mapas Offline"
             ){
                 manageOfflineMaps()
+            },
+            SettingOption(
+                iconResId = R.drawable.baseline_info_24,
+                title = "Acerca de",
+                description = "Información sobre la aplicación"
+            ){
+                about()
             }
         )
 
@@ -86,6 +93,10 @@ class SettingsFragment : Fragment() {
 
     private fun manageOfflineMaps() {
         findNavController().navigate(R.id.action_settingsFragment_to_manageMapsFragment)
+    }
+
+    private fun about(){
+        findNavController().navigate(R.id.action_settingsFragment_to_about)
     }
 
 }

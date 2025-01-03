@@ -33,7 +33,7 @@ class Recreativos : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView?.adapter = SitiosCategoriaAdapter(sitios,{ sitio ->
             val bundle = bundleOf("sitioNombre" to sitio.nombre)
-            findNavController().navigate(R.id.action_naturalesFragment_to_detalleSitioFragment, bundle)
+            findNavController().navigate(R.id.action_recreativosFragment_to_detalleSitioFragment, bundle)
         }, imagenesSitios)
         recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
 

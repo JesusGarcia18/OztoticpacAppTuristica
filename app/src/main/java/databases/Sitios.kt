@@ -394,8 +394,8 @@ class Sitios (private val db: AppDatabase){
                         servicios = "Cuenta con alberca de agua de manantial, areas verdes para picnic o acampar, zona de area deportiva y asaderos.",
                         contactos = "",
                         nombreContacto = "",
-                        latitude = 18.787324,
-                        longitude = -97.199241,
+                        latitude = 18.787291,
+                        longitude = -97.199259,
 
                         ),
                     Sitio(

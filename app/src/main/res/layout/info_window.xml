@@ -53,6 +53,7 @@
             android:contentDescription="@string/cerrar_ventana"
             android:drawableEnd="@drawable/baseline_close_24" />
 
+
     </LinearLayout>
 
 </LinearLayout>

@@ -121,6 +121,11 @@
             android:id="@+id/action_settingsFragment_to_manageMapsFragment"
             app:destination="@id/manageMapsFragment">
         </action>
+        <action
+            android:id="@+id/action_settingsFragment_to_about"
+            app:destination="@+id/nav_about">
+
+        </action>
     </fragment>
 
     <fragment

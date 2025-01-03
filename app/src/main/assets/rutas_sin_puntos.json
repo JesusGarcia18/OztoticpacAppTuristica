@@ -1,0 +1,100 @@
+{
+  "rutas": [
+    {
+      "nombre": "Laguna de Nogales a Sitio Turístico de Relajación OZTOTIPAC",
+      "origen": { "lat": 18.8207762, "lon": -97.1642322, "nombre": "Laguna de Nogales" },
+      "destino": { "lat": 18.820392, "lon": -97.165617, "nombre": "Sitio Turístico de Relajación OZTOTIPAC" },
+      "puntos": []
+    },
+    {
+      "nombre": "Sendero Cerro de la Capilla a Cañón de la Carbonera",
+      "origen": { "lat": 18.8228142, "lon": -97.1701481, "nombre": "Sendero Cerro de la Capilla" },
+      "destino": { "lat": 18.8326624, "lon": -97.1752187, "nombre": "Cañón de la Carbonera" },
+      "puntos": []
+    },
+    {
+      "nombre": "Mirador y Sendero Palo Verde a Mirador Piedra del Águila",
+      "origen": { "lat": 18.8388139, "lon": -97.1943655, "nombre": "Mirador y Sendero Palo Verde" },
+      "destino": { "lat": 18.8521762, "lon": -97.1954041, "nombre": "Mirador Piedra del Águila" },
+      "puntos": []
+    },
+    {
+      "nombre": "Sendero al Balcón del Diablo a Túneles Férricos de la Carbonera (Rosecranz)",
+      "origen": { "lat": 18.8538211, "lon": -97.196359, "nombre": "Sendero al Balcón del Diablo" },
+      "destino": { "lat": 18.8532017, "lon": -97.1963482, "nombre": "Túneles Férricos de la Carbonera (Rosecranz)" },
+      "puntos": []
+    },
+    {
+      "nombre": "Inicio del Sendero a Cueva de Mármol a Ojito de Agua El Encinar",
+      "origen": { "lat": 18.831615, "lon": -97.1656136, "nombre": "Inicio del Sendero a Cueva de Mármol" },
+      "destino": { "lat": 18.8184128, "lon": -97.1963339, "nombre": "Ojito de Agua El Encinar" },
+      "puntos": []
+    },
+    {
+      "nombre": "Rincón de las Doncellas a Cueva del Diablo",
+      "origen": { "lat": 18.7933817, "lon": -97.1985023, "nombre": "Rincón de las Doncellas" },
+      "destino": { "lat": 18.7874703, "lon": -97.1913998, "nombre": "Cueva del Diablo" },
+      "puntos": []
+    },
+    {
+      "nombre": "Taza de Agua a Paseo de los Ahuehuetes",
+      "origen": { "lat": 18.7764966, "lon": -97.2049903, "nombre": "Taza de Agua" },
+      "destino": { "lat": 18.7891935, "lon": -97.1971413, "nombre": "Paseo de los Ahuehuetes" },
+      "puntos": []
+    },
+    {
+      "nombre": "Cañón del Río Blanco a Parroquia de San Isidro Labrador",
+      "origen": { "lat": 18.7888858, "lon": -97.1973968, "nombre": "Cañón del Río Blanco" },
+      "destino": { "lat": 18.8128792, "lon": -97.1953152, "nombre": "Parroquia de San Isidro Labrador" },
+      "puntos": []
+    },
+    {
+      "nombre": "Parroquia de San Juan Bautista a Ex Fábrica San Lorenzo",
+      "origen": { "lat": 18.8220339, "lon": -97.1630438, "nombre": "Parroquia de San Juan Bautista" },
+      "destino": { "lat": 18.815906, "lon": -97.1642025, "nombre": "Ex Fábrica San Lorenzo" },
+      "puntos": []
+    },
+    {
+      "nombre": "Antigua Ruta del Ferrocarril a Los Portales de Nogales",
+      "origen": { "lat": 18.8194235, "lon": -97.2303424, "nombre": "Antigua Ruta del Ferrocarril" },
+      "destino": { "lat": 18.821645, "lon": -97.1626499, "nombre": "Los Portales de Nogales" },
+      "puntos": []
+    },
+    {
+      "nombre": "La Pizza a Restaurante Xipatlani",
+      "origen": { "lat": 18.821760, "lon": -97.162661, "nombre": "La Pizza" },
+      "destino": { "lat": 18.818914, "lon": -97.1619264, "nombre": "Restaurante Xipatlani" },
+      "puntos": []
+    },
+    {
+      "nombre": "Campestre Yecapixtla a Restaurante Chicahuaxtla",
+      "origen": { "lat": 18.7872872, "lon": -97.1991455, "nombre": "Campestre Yecapixtla" },
+      "destino": { "lat": 18.8547765, "lon": -97.2123366, "nombre": "Restaurante Chicahuaxtla" },
+      "puntos": []
+    },
+    {
+      "nombre": "Balneario Relax a Balneario El Edén",
+      "origen": { "lat": 18.7887928, "lon": -97.1977154, "nombre": "Balneario Relax" },
+      "destino": { "lat": 18.7873, "lon": -97.1993182, "nombre": "Balneario El Edén" },
+      "puntos": []
+    },
+    {
+      "nombre": "Campo Deportivo Famosa a Cabañas Chicahuaxtla Bosque Encantado",
+      "origen": { "lat": 18.8219735, "lon": -97.1589975, "nombre": "Campo Deportivo Famosa" },
+      "destino": { "lat": 18.8546202, "lon": -97.2128201, "nombre": "Cabañas Chicahuaxtla Bosque Encantado" },
+      "puntos": []
+    },
+    {
+      "nombre": "Laguna Real de Nogales a Hotel Boutique El Mesón de Samaria",
+      "origen": { "lat": 18.8215511, "lon": -97.1626738, "nombre": "Laguna Real de Nogales" },
+      "destino": { "lat": 18.8254306, "lon": -97.1611987, "nombre": "Hotel Boutique El Mesón de Samaria" },
+      "puntos": []
+    },
+    {
+      "nombre": "Posada Las Garzas a Parroquia de San Juan Bautista",
+      "origen": { "lat": 18.8193632, "lon": -97.1646003, "nombre": "Posada Las Garzas" },
+      "destino": { "lat": 18.8220339, "lon": -97.1630438, "nombre": "Parroquia de San Juan Bautista" },
+      "puntos": []
+    }
+  ]
+}

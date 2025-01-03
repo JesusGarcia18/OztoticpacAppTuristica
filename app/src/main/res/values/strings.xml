@@ -69,4 +69,6 @@
     <string name="el_mapa_est_actualizado">El mapa está actualizado</string>
     <string name="nogales_sitios_turisticos">Nogales - Sitios Turisticos</string>
     <string name="informacion_sobre_la_aplicacion">Informacion sobre la aplicacion</string>
+    <string name="limpiar_ruta">Limpiar Ruta</string>
+    <string name="borrar_la_ruta">borrar la ruta</string>
 </resources>

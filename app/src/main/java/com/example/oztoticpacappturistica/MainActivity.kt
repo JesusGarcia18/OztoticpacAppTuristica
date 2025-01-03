@@ -111,12 +111,7 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         val currentDestination = navController.currentDestination
 
-        val fragmentWithoutMenu = listOf(
-            R.id.settingsFragment,
-            R.id.nav_about
-        )
-
-        if (currentDestination != null && !fragmentWithoutMenu.contains(currentDestination.id)){
+        if (currentDestination != null && currentDestination.id == R.id.nav_home){
             menuInflater.inflate(R.menu.main, menu)
             return true
         }
@@ -127,10 +122,6 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_settings -> {
                 findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.settingsFragment)
-                true
-            }
-            R.id.action_about -> {
-                findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.nav_about)
                 true
             }
             else -> super.onOptionsItemSelected(item)

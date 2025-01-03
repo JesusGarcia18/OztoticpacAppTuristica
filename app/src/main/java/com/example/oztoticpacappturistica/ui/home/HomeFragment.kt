@@ -10,9 +10,11 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -30,17 +32,13 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import com.graphhopper.GHRequest
-import com.graphhopper.GraphHopper
-import com.graphhopper.ResponsePath
-import com.graphhopper.config.Profile
-import com.graphhopper.util.Parameters
-import com.graphhopper.util.shapes.GHPoint
 import databases.AppDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
 import org.osmdroid.config.Configuration
+import org.osmdroid.tileprovider.MapTileProviderBasic
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.tileprovider.tilesource.XYTileSource
 import org.osmdroid.util.BoundingBox
@@ -97,6 +95,7 @@ class HomeFragment : Fragment() {
         val longitude = -97.1642322
         val geoPoint = GeoPoint(latitude, longitude)
 
+
         mapView = view.findViewById(R.id.mapView)
         mapView.setTileSource(TileSourceFactory.MAPNIK)
         mapView.controller.setCenter(geoPoint)
@@ -117,13 +116,20 @@ class HomeFragment : Fragment() {
             }
         }
 
-        addWaypointsToMap()
-
         db = Room.databaseBuilder(
             requireContext(), AppDatabase::class.java, "sitios-database"
         ).build()
 
         configurarToolbar()
+
+        onOfflineMapDownloaded()
+
+        addWaypointsToMap()
+
+        val buttonLimpiarRuta: Button = view.findViewById(R.id.buttonLimpiarRuta)
+        buttonLimpiarRuta.setOnClickListener {
+            limpiarRuta()
+        }
     }
 
     private fun configurarToolbar(){
@@ -184,7 +190,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-    @SuppressLint("MissingPermission")
     private fun downloadOfflineMap(bounds: BoundingBox) {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
@@ -205,7 +210,7 @@ class HomeFragment : Fragment() {
 
         notificationManager.notify(1, builder.build())
 
-        val destinationDir = File(requireContext().filesDir, "nogales_tiles")
+        val destinationDir = File(requireContext().filesDir, "Nogales_Tiles")
         destinationDir.mkdirs()
 
         val tileSource = TileSourceFactory.MAPNIK
@@ -251,7 +256,7 @@ class HomeFragment : Fragment() {
             }
         }
         builder.setContentText("Descarga completada")
-            .setProgress(0, 0, false)
+            .setProgress(100, 100, false)
         notificationManager.notify(1, builder.build())
         onOfflineMapDownloaded()
     }
@@ -287,24 +292,43 @@ class HomeFragment : Fragment() {
         return  sharedPrefs.getBoolean("offline_map_downloaded", false)
     }
 
-    private fun MapOffSqlite(){
-        val externalStorageDir = requireContext().getExternalFilesDirs(null)
-        val tileFile = File(externalStorageDir, "nogales_tiles.sqlite")
-        val inputStream = requireContext().assets.open("nogales_tiles.sqlite")
-        val outputStream = FileOutputStream(tileFile)
-        inputStream.copyTo(outputStream)
-        inputStream.close()
-        outputStream.close()
+    private fun copySqliteFromAssets() {
+        val destinationFile = File(requireContext().filesDir, "Nogales_Tiles")
+        if (!destinationFile.exists()) {
+            val inputStream = requireContext().assets.open("Nogales_Tiles.sqlite")
+            val outputStream = FileOutputStream(destinationFile)
+            inputStream.copyTo(outputStream)
+            inputStream.close()
+            outputStream.close()
+        }
     }
 
-    @SuppressLint("SuspiciousIndentation")
     private fun onOfflineMapDownloaded(){
-        val offlineTileSource = XYTileSource("NogalesOffline", 0, 16, 256, ".png",arrayOf(File(requireContext().filesDir,"assets://nogales_tiles").absolutePath))
+        copySqliteFromAssets()
+
+        val tileFile = File(requireContext().filesDir, "Nogales_Tiles.sqlite")
+        if (tileFile.exists()) {
+            val offlineTileSource = XYTileSource(
+                "Nogales_Tiles", 0, 16, 256, ".png",
+                arrayOf("")
+            )
+
+            // Establece el tile source en el mapa
             mapView.setTileSource(offlineTileSource)
 
-        mapView.setTileSource(offlineTileSource)
+            // Carga el archivo SQLite que contiene los tiles
+            val tileProvider = MapTileProviderBasic(context, offlineTileSource)
+            tileProvider.tileSource = offlineTileSource
 
-        addWaypointsToMap()
+            // Establece el tile provider en el mapa
+            mapView.tileProvider = tileProvider
+
+            // Redibuja el mapa
+            mapView.invalidate()
+        } else {
+            // Si el archivo de tiles no se encuentra, muestra un mensaje
+            Toast.makeText(requireContext(), "Archivo de tiles no encontrado.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private val waypoints = arrayListOf(
@@ -333,7 +357,7 @@ class HomeFragment : Fragment() {
         Waypoint(GeoPoint(18.7872872, -97.1991455), "Campestre Yecapixtla"),
         Waypoint(GeoPoint(18.8547765, -97.2123366), "Restaurante Chicahuaxtla"),
         Waypoint(GeoPoint(18.7887928, -97.1977154), "Balneario Relax"),
-        Waypoint(GeoPoint(18.7873, -97.1993182), "Balneario El Eden"),
+        Waypoint(GeoPoint(18.787291, -97.199259), "Balneario El Eden"),
         Waypoint(GeoPoint(18.8219735, -97.1589975), "Campo Deportivo \"Famosa\""),
         Waypoint(GeoPoint(18.8546202, -97.2128201), "Cabañas Chicahuaxtla \"Bosque Encantado\""),
         Waypoint(GeoPoint(18.8215511, -97.1626738), "Laguna Real de Nogales"),
@@ -357,12 +381,10 @@ class HomeFragment : Fragment() {
                 }
                 true
             }
-            mapView.overlayManager.add(marker)
         }
         mapView.invalidate()
     }
 
-    @SuppressLint("SuspiciousIndentation")
     private fun getUserLocation(onLocationReceived: (GeoPoint?) -> Unit){
         val fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
@@ -438,7 +460,6 @@ class HomeFragment : Fragment() {
         return null
     }
 
-
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun showUserLocation(geoPoint: GeoPoint){
         val mapController = mapView.controller
@@ -464,9 +485,10 @@ class HomeFragment : Fragment() {
         }
     }
 
+
+
     private suspend fun showMarkerInfo(marker: Marker) {
         val sitioNombre = marker.relatedObject as? String
-        val geoWaypoints = waypoints.map { waypoint -> waypoint.geoPoint }
         sitioNombre?.let { nombre ->
             val sitio = withContext(Dispatchers.IO) { db.sitioDao().getSitioByName(nombre) }
 
@@ -476,16 +498,16 @@ class HomeFragment : Fragment() {
                 infoWindow.view.findViewById<TextView>(R.id.title).text = it.nombre
                 infoWindow.view.findViewById<TextView>(R.id.description).text = it.informacion
 
-                infoWindow.view.findViewById<android.widget.Button>(R.id.btnDetalles).setOnClickListener {
+                infoWindow.view.findViewById<Button>(R.id.btnDetalles).setOnClickListener {
                     navigateToDetalleSitioFragment(sitio.nombre)
                     infoWindow.close()
                 }
-                infoWindow.view.findViewById<android.widget.Button>(R.id.btnRuta).setOnClickListener {
+                infoWindow.view.findViewById<Button>(R.id.btnRuta).setOnClickListener {
                     val userLocation = getLastLocationOffline()
                     if (userLocation == null){
                         getUserLocation { currentLocation ->
                             if (currentLocation != null) {
-                                calcularRuta(currentLocation, geoWaypoints)
+                                mostrarRutaDesdeJSON(currentLocation, marker.position)
                                 infoWindow.close()
                             } else {
                                 Toast.makeText(requireContext(), "No se pudo obtener tu ubicación", Toast.LENGTH_SHORT).show()
@@ -493,11 +515,11 @@ class HomeFragment : Fragment() {
                         }
                     return@setOnClickListener
                     } else {
-                        calcularRuta(userLocation, geoWaypoints)
+                        mostrarRutaDesdeJSON(userLocation, marker.position)
                         infoWindow.close()
                     }
                 }
-                infoWindow.view.findViewById<android.widget.Button>(R.id.btnCerrar).setOnClickListener {
+                infoWindow.view.findViewById<Button>(R.id.btnCerrar).setOnClickListener {
                     infoWindow.close()
                 }
                 marker.showInfoWindow()
@@ -508,73 +530,71 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun calcularRuta(userLocation: GeoPoint, waypoints: List<GeoPoint>) {
-        if (waypoints.isEmpty()) {
-            Toast.makeText(requireContext(), "No hay puntos de destino", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        val destination = waypoints.minByOrNull { waypoint ->
-            waypoint.distanceToAsDouble(userLocation)
-
-        } ?: return
-
-        val graphFilePath = File(requireContext().getExternalFilesDir(null), "nogales_tiles")
-        if (!graphFilePath.exists()){
-            Toast.makeText(requireContext(), "El archivo de ruta no existe", Toast.LENGTH_SHORT).show()
-            return
-        }
-
+    private fun cargarRutasDesdeJSON(): List<Triple<String, GeoPoint, List<GeoPoint>>> {
+        val rutas = mutableListOf<Triple<String, GeoPoint, List<GeoPoint>>>()
         try {
-            val graphHopper = GraphHopper().apply {
-                setGraphHopperLocation(graphFilePath.absolutePath)
-                setProfiles(
-                    Profile("car").apply {
-                        vehicle = "car"
-                        weighting = "fastest"
-                        isTurnCosts = false
+            val inputStream = requireContext().assets.open("rutas.json")
+            val jsonString = inputStream.bufferedReader().use { it.readText() }
+            val jsonObject = JSONObject(jsonString)
+            val rutasArray = jsonObject.getJSONArray("rutas")
+
+            for (i in 0 until rutasArray.length()) {
+                try {
+                    val ruta = rutasArray.getJSONObject(i)
+                    val origen = ruta.getJSONArray("origen")
+                    val destino = ruta.getJSONArray("destino")
+                    val puntosArray = ruta.getJSONArray("puntos")
+                    val puntos = mutableListOf<GeoPoint>()
+
+                    for (j in 0 until puntosArray.length()) {
+                        val punto = puntosArray.getJSONArray(j)
+                        puntos.add(GeoPoint(punto.getDouble(0), punto.getDouble(1)))
                     }
-                )
-                importOrLoad()
-            }
 
-            val startPoint = GHPoint(userLocation.latitude, userLocation.longitude)
-            val endPoint = GHPoint(destination.latitude, destination.longitude)
-
-            val request = GHRequest(startPoint, endPoint).apply {
-                algorithm = Parameters.Algorithms.DIJKSTRA
-                setProfile("car")
-                putHint(Parameters.CH.DISABLE, true)
-            }
-
-            val response = graphHopper.route(request)
-
-            if (response.hasErrors()) {
-                Toast.makeText(requireContext(), "Error al calcular la ruta: ${response.errors.joinToString()}", Toast.LENGTH_SHORT).show()
-                return
-            }
-
-            val path: ResponsePath = response.best
-
-            if (path.points.size() > 0) {
-                mapView.overlayManager.clear()
-                val pathOverlay = Polyline(mapView).apply {
-                    outlinePaint.strokeWidth = 10f
-                    outlinePaint.color = Color.BLUE
-                    setPoints(path.points.map { GeoPoint(it.lat, it.lon) })
+                    val origenPoint = GeoPoint(origen.getDouble(0), origen.getDouble(1))
+                    val destinoPoint = GeoPoint(destino.getDouble(0), destino.getDouble(1))
+                    rutas.add(Triple(ruta.getString("nombre"), origenPoint, puntos + destinoPoint))
+                } catch (e: Exception) {
+                    Log.e("cargarRutasDesdeJSON", "Error al procesar la ruta en índice $i", e)
                 }
-
-
-                mapView.overlayManager.add(pathOverlay)
-                mapView.invalidate()
-            } else {
-                Toast.makeText(requireContext(), "No se pudo calcular la ruta", Toast.LENGTH_SHORT).show()
             }
-        } catch (e: Exception){
-            e.printStackTrace()
-            Toast.makeText(requireContext(), "Error al inicializar la ruta: ${e.message}", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Log.e("cargarRutasDesdeJSON", "Error al cargar rutas desde JSON", e)
+        }
+        return rutas
+    }
+
+    private var rutaPolyline: Polyline? = null
+
+    private fun mostrarRutaDesdeJSON(userLocation: GeoPoint, destino: GeoPoint) {
+        val rutas = cargarRutasDesdeJSON()
+        val rutaSeleccionada = rutas.minByOrNull { ruta ->
+            ruta.third.minOfOrNull { punto -> punto.distanceToAsDouble(destino) } ?: Double.MAX_VALUE
         }
 
+        if (rutaSeleccionada != null) {
+            val rutaCompleta = mutableListOf(userLocation)
+            rutaCompleta.addAll(rutaSeleccionada.third)
+            rutaPolyline?.let { mapView.overlayManager.remove(it) }
+            rutaPolyline = Polyline(mapView).apply {
+                outlinePaint.color = Color.GREEN
+                outlinePaint.strokeWidth = 8f
+                setPoints(rutaCompleta)
+            }
+            mapView.overlayManager.add(rutaPolyline!!)
+            mapView.invalidate()
+            Toast.makeText(requireContext(), "Ruta mostrada: ${rutaSeleccionada.first}", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(requireContext(), "No se encontró una ruta cercana al destino.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun limpiarRuta() {
+        rutaPolyline?.let {
+            mapView.overlayManager.remove(it)
+            rutaPolyline = null
+            mapView.invalidate()
+        }
     }
 
     private fun navigateToDetalleSitioFragment(sitioNombre: String){

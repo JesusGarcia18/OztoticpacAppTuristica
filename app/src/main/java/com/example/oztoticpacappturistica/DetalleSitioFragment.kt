@@ -59,6 +59,8 @@ class DetalleSitioFragment : Fragment() {
             "Naturales-Culturales" -> R.drawable.baseline_park_24
                 "Historicos" -> R.drawable.baseline_museum_24
                     "Gastronomicos" -> R.drawable.baseline_restaurant_24
+                        "Recreativos" -> R.drawable.baseline_pool_24
+                            "Hoteles" -> R.drawable.baseline_hotel_24
                         else -> R.drawable.ic_launcher_foreground
         }
     }

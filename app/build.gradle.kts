@@ -71,6 +71,7 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)
     implementation(libs.osmdroid.android)
+    implementation(libs.osmbonuspack)
     implementation(libs.taptargetview)
     implementation(libs.graphhopper.core)
     implementation(libs.play.services.location)
@@ -83,4 +84,6 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.glide)
+    implementation(libs.fuel)
+    implementation(libs.fuel.android)
 }
