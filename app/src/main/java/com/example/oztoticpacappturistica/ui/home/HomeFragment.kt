@@ -38,9 +38,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import org.osmdroid.config.Configuration
-import org.osmdroid.tileprovider.MapTileProviderBasic
+import org.osmdroid.tileprovider.MapTileProviderArray
+import org.osmdroid.tileprovider.modules.MBTilesFileArchive
+import org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.tileprovider.tilesource.XYTileSource
+import org.osmdroid.tileprovider.util.SimpleRegisterReceiver
 import org.osmdroid.util.BoundingBox
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
@@ -101,7 +104,7 @@ class HomeFragment : Fragment() {
         mapView.controller.setCenter(geoPoint)
         mapView.controller.setZoom(15.0)
 
-        nogalesBounds = BoundingBox(18.84, -97.18, 18.78, -97.10)
+        nogalesBounds = BoundingBox(18.979026, -97.119141, 18.729502, -97.294922)
 
         getUserLocation { currentLocation ->
             if (currentLocation != null) {
@@ -122,7 +125,7 @@ class HomeFragment : Fragment() {
 
         configurarToolbar()
 
-        onOfflineMapDownloaded()
+        mapOpen()
 
         addWaypointsToMap()
 
@@ -258,7 +261,6 @@ class HomeFragment : Fragment() {
         builder.setContentText("Descarga completada")
             .setProgress(100, 100, false)
         notificationManager.notify(1, builder.build())
-        onOfflineMapDownloaded()
     }
 
     private fun downloadTile(tileUrl: String): ByteArray{
@@ -292,43 +294,40 @@ class HomeFragment : Fragment() {
         return  sharedPrefs.getBoolean("offline_map_downloaded", false)
     }
 
-    private fun copySqliteFromAssets() {
-        val destinationFile = File(requireContext().filesDir, "Nogales_Tiles")
-        if (!destinationFile.exists()) {
-            val inputStream = requireContext().assets.open("Nogales_Tiles.sqlite")
-            val outputStream = FileOutputStream(destinationFile)
-            inputStream.copyTo(outputStream)
-            inputStream.close()
-            outputStream.close()
+    private fun copyMBTilesToInternalStorage(context: Context): File {
+        val fileName = "Nogales_Tiles.mbtiles"
+        val inputStream = context.assets.open(fileName)
+        val outputFile = File(context.filesDir, fileName)
+
+        if (!outputFile.exists()) {
+            inputStream.use { input ->
+                FileOutputStream(outputFile).use { output ->
+                    input.copyTo(output)
+                }
+            }
         }
+
+        return outputFile
     }
 
-    private fun onOfflineMapDownloaded(){
-        copySqliteFromAssets()
+    private fun mapOpen(){
+        val mbTilesFile = copyMBTilesToInternalStorage(requireContext())
 
-        val tileFile = File(requireContext().filesDir, "Nogales_Tiles.sqlite")
-        if (tileFile.exists()) {
-            val offlineTileSource = XYTileSource(
-                "Nogales_Tiles", 0, 16, 256, ".png",
-                arrayOf("")
-            )
+        // Configurar el mapa con el archivo MBTiles
+        val tileSource = XYTileSource("MBTiles", 14, 16, 256, ".png", arrayOf())
+        val archiveFile = MBTilesFileArchive.getDatabaseFileArchive(File(mbTilesFile.absolutePath))
+        val provider = MapTileFileArchiveProvider(
+            SimpleRegisterReceiver(requireContext()),
+            tileSource,
+            arrayOf(archiveFile) // Archivo MBTiles convertido a IArchiveFile
+        )
+        val tileProvider = MapTileProviderArray(tileSource, null, arrayOf(provider))
 
-            // Establece el tile source en el mapa
-            mapView.setTileSource(offlineTileSource)
-
-            // Carga el archivo SQLite que contiene los tiles
-            val tileProvider = MapTileProviderBasic(context, offlineTileSource)
-            tileProvider.tileSource = offlineTileSource
-
-            // Establece el tile provider en el mapa
-            mapView.tileProvider = tileProvider
-
-            // Redibuja el mapa
-            mapView.invalidate()
-        } else {
-            // Si el archivo de tiles no se encuentra, muestra un mensaje
-            Toast.makeText(requireContext(), "Archivo de tiles no encontrado.", Toast.LENGTH_SHORT).show()
-        }
+        mapView.setTileSource(tileSource)
+        mapView.tileProvider = tileProvider
+        mapView.setMultiTouchControls(true)
+        mapView.controller.setZoom(15.0) // Zoom inicial
+        mapView.controller.setCenter(GeoPoint(18.8207762, -97.1642322))
     }
 
     private val waypoints = arrayListOf(
